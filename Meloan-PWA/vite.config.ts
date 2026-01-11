@@ -1,12 +1,12 @@
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
-import tailwindcss from "tailwindcss";
-import runtimeErrorOverlay from "@replit/vite-plugin-runtime-error-modal";
-import metaImagesPlugin from "@replit/vite-plugin-meta-images";
-import path from "path";
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import tailwindcss from 'tailwindcss';
+import runtimeErrorOverlay from '@replit/vite-plugin-runtime-error-modal';
+import metaImagesPlugin from '@replit/vite-plugin-meta-images';
+import path from 'path';
 
 export default defineConfig({
-  // Здесь подключаем только плагины
+  // Здесь подключаем только плагины (квадратные скобки закрываются до build)
   plugins: [
     react(),
     runtimeErrorOverlay(),
@@ -14,8 +14,8 @@ export default defineConfig({
     metaImagesPlugin(),
   ],
   // Корень проекта — папка client
-  root: path.resolve(__dirname, "client"),
-  // Настройки PostCSS (Tailwind)
+  root: path.resolve(__dirname, 'client'),
+  // Настройка PostCSS (для Tailwind)
   css: {
     postcss: {
       plugins: [tailwindcss],
@@ -24,28 +24,28 @@ export default defineConfig({
   // Алиасы для React Native
   resolve: {
     alias: {
-      "react-native": "react-native-web",
+      'react-native': 'react-native-web',
     },
   },
   // Настройка сборки
   build: {
-    // Задаём точки входа: главная страница и страница /accept
+    // Указываем точки входа: главная страница и /accept
     rollupOptions: {
       input: {
-        main: path.resolve(__dirname, "client/index.html"),
-        accept: path.resolve(__dirname, "client/accept/index.html"),
+        main: path.resolve(__dirname, 'client/index.html'),
+        accept: path.resolve(__dirname, 'client/accept/index.html'),
       },
     },
-    // Папка для готовых файлов
-    outDir: path.resolve(__dirname, "dist/public"),
+    // Папка вывода готовых файлов
+    outDir: path.resolve(__dirname, 'dist/public'),
     emptyOutDir: true,
   },
-  // Прокси для API (при локальной разработке)
+  // Настройка dev‑сервера (опционально)
   server: {
     host: true,
     proxy: {
-      "/api": {
-        target: "http://localhost:3000",
+      '/api': {
+        target: 'http://localhost:3000',
         changeOrigin: true,
       },
     },
