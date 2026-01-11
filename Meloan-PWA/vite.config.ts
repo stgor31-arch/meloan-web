@@ -6,41 +6,41 @@ import metaImagesPlugin from "@replit/vite-plugin-meta-images";
 import path from "path";
 
 export default defineConfig({
-  // здесь подключаем только плагины
+  // Здесь подключаем только плагины
   plugins: [
     react(),
     runtimeErrorOverlay(),
     tailwindcss(),
     metaImagesPlugin(),
   ],
-  // корень проекта — папка client
+  // Корень проекта — папка client
   root: path.resolve(__dirname, "client"),
-  // пост‑процессор для TailwindCSS
+  // Настройки PostCSS (Tailwind)
   css: {
     postcss: {
       plugins: [tailwindcss],
     },
   },
-  // алиасы для react‑native
+  // Алиасы для React Native
   resolve: {
     alias: {
       "react-native": "react-native-web",
     },
   },
-  // единственный раздел build, где указываем rollupOptions
+  // Настройка сборки
   build: {
-    // задаём точки входа: главная страница и страница /accept
+    // Задаём точки входа: главная страница и страница /accept
     rollupOptions: {
       input: {
         main: path.resolve(__dirname, "client/index.html"),
         accept: path.resolve(__dirname, "client/accept/index.html"),
       },
     },
-    // папка для готовых файлов
+    // Папка для готовых файлов
     outDir: path.resolve(__dirname, "dist/public"),
     emptyOutDir: true,
   },
-  // прокси для API на 3000 порте (если запускаете сервер локально)
+  // Прокси для API (при локальной разработке)
   server: {
     host: true,
     proxy: {
