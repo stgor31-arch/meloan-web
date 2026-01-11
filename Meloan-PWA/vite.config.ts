@@ -13,11 +13,20 @@ export default defineConfig({
   root: path.resolve(__dirname, 'client'),
   // Настраиваем алиасы. Теперь @ указывает на client/src
   resolve: {
-    alias: {
-      '@': path.resolve(__dirname, 'client/src'),
-      '@components': path.resolve(__dirname, 'client/src/components'),
-      'react-native': 'react-native-web',
-    },
+   alias: [
+      {
+        find: /^@components\//,
+        replacement: `${path.resolve(__dirname, 'client/src/components')}/`,
+      },
+      {
+        find: /^@\//,
+        replacement: `${path.resolve(__dirname, 'client/src')}/`,
+      },
+      {
+        find: 'react-native',
+        replacement: 'react-native-web',
+      },
+    ],
   },
   // Настройка сборки Vite
   build: {
