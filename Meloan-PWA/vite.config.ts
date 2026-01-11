@@ -4,32 +4,34 @@ import runtimeErrorOverlay from '@replit/vite-plugin-runtime-error-modal';
 import path from 'path';
 
 export default defineConfig({
-  // только существующие плагины
+  // Подключаем существующие плагины
   plugins: [
     react(),
     runtimeErrorOverlay(),
   ],
-  // корень проекта — папка client
+  // Указываем корень проекта (папка client)
   root: path.resolve(__dirname, 'client'),
-  // алиас для react‑native
+  // Настраиваем алиасы. Теперь @ указывает на client/src
   resolve: {
     alias: {
+      '@': path.resolve(__dirname, 'client/src'),
       'react-native': 'react-native-web',
     },
   },
-  // опции сборки
+  // Настройка сборки Vite
   build: {
     rollupOptions: {
-      // несколько точек входа: главная и accept
+      // Несколько точек входа: корень и страница /accept
       input: {
         main: path.resolve(__dirname, 'client/index.html'),
         accept: path.resolve(__dirname, 'client/accept/index.html'),
       },
     },
+    // Каталог для готовых файлов
     outDir: path.resolve(__dirname, 'dist/public'),
     emptyOutDir: true,
   },
-  // настройки dev‑сервера (опционально)
+  // Настройки dev‑сервера (опционально)
   server: {
     host: true,
     proxy: {
