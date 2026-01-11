@@ -8,6 +8,12 @@ import { metaImagesPlugin } from "./vite-plugin-meta-images";
 export default defineConfig({
   plugins: [
     react(),
+ build: {
+    rollupOptions: {
+      input: {
+        main: resolve(__dirname, "client/index.html"),
+        accept: resolve(__dirname, "client/accept/index.html"),
+      },    
     runtimeErrorOverlay(),
     tailwindcss(),
     metaImagesPlugin(),
