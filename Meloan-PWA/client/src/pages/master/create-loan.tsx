@@ -1,3 +1,4 @@
+import { calcLoan } from "@/api/loan"
 import { MobileLayout } from "@/components/layout";
 import { useStore, translations } from "@/lib/store";
 import { Button } from "@/components/ui/button";
