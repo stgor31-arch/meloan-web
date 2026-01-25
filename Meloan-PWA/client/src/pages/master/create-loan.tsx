@@ -31,24 +31,42 @@ export default function MasterCreateLoan() {
         frequency: "monthly"
     }
   });
+const onSubmit = async (data: any) => {
+  try {
+    // 1) Считаем через backend
+    const calc = await calcLoan({
+      amount,
+      rate,
+      months,
+    });
 
-  const onSubmit = (data: any) => {
-    // Ensure we store digits for easier searching later, but keep the display format if needed
-    // However, the store expects borrowerContact. Let's make sure it's saved.
+    // 2) Создаём займ + сохраняем расчёт (чтобы потом показывать)
     createLoan({
-        amount,
-        termMonths: months,
-        ratePercent: rate,
-        ...data
+      amount,
+      termMonths: months,
+      ratePercent: rate,
+      // полезные поля из расчёта:
+      monthlyPayment: calc.monthlyPayment,
+      totalPayment: calc.total,
+      overpay: calc.overpay,
+      schedule: calc.schedule,
+      ...data,
     });
-    
-    toast({
-        title: "Заём создан",
-        description: "Ссылка-приглашение готова."
-    });
-    setLocation("/master/dashboard");
-  };
 
+    toast({
+      title: "Заём создан",
+      description: "Ссылка-приглашение готова.",
+    });
+
+    setLocation("/master/dashboard");
+  } catch (e: any) {
+    toast({
+      title: "Не удалось рассчитать заём",
+      description: e?.message || "Ошибка API",
+      variant: "destructive",
+    });
+  }
+};
   if (!lenderProfile) {
     return (
         <MobileLayout title={t.new_loan} showBack>
