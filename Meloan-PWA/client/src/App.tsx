@@ -13,6 +13,7 @@ import BorrowerLogin from "@/pages/borrower/login";
 import BorrowerInvite from "@/pages/borrower/invite";
 import BorrowerDashboard from "@/pages/borrower/dashboard";
 import { AnimatePresence } from "framer-motion";
+import { api } from "@/lib/api";
 
 function Router() {
   const [location] = useLocation();
@@ -40,6 +41,14 @@ function Router() {
 }
 
 function App() {
+  // внутри App() перед return
+api.health()
+  .then((r) => console.log("API HEALTH OK:", r))
+  .catch((e) => console.error("API HEALTH ERROR:", e));
+
+api.loanCalc({ amount: 100000, rate: 12, months: 12 })
+  .then((r) => console.log("API LOAN OK:", r))
+  .catch((e) => console.error("API LOAN ERROR:", e));
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
