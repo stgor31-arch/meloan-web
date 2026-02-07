@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
-
-// URL вашего API. Этот адрес указывает на деплой Meloan API в Cloudflare Workers
-const API_BASE = 'https://meloan-api-prod.stgor31.workers.dev';
+import { apiFetch } from "@/lib/api";
 
 const Accept: React.FC = () => {
   const token = new URLSearchParams(window.location.search).get('token');
@@ -19,11 +17,10 @@ const Accept: React.FC = () => {
   }, [token]);
 
   const acceptLoan = () => {
-    fetch(`${API_BASE}/api/loans/accept`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ token, email }),
-    })
+   apiFetch("/auth/verify-code", {
+  method: "POST",
+  body: JSON.stringify({ token }),
+})
     .then(res => res.json())
     .then(data => {
       if (data.success) {
